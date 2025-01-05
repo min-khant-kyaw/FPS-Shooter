@@ -11,7 +11,7 @@ public class Weapon : MonoBehaviour
     // Shooting related configs
     public bool isShooting, readyToShoot;
     bool allowReset = true;
-    public float shootingDelay = 2f;
+    public float shootingDelay = 0.2f;
 
     // Weapon Burst mode
     public int bulletsPerBurst = 3;
@@ -23,7 +23,7 @@ public class Weapon : MonoBehaviour
     // Bullet
     public GameObject bulletPrefab;
     public Transform bulletSpawn;
-    public float bulletVelocity = 100;
+    public float bulletVelocity = 500;
     public float bulletPrefabLifeTime = 3f;
 
     public enum ShootingMode
@@ -72,7 +72,7 @@ public class Weapon : MonoBehaviour
         bullet.transform.forward = shootingDirection;
         
         // Shoot the bullet
-        bullet.GetComponent<Rigidbody>().AddForce(bulletSpawn.forward.normalized * bulletVelocity, ForceMode.Impulse);
+        bullet.GetComponent<Rigidbody>().AddForce(shootingDirection * bulletVelocity, ForceMode.Impulse);
         
         // Destroy the bullet
         StartCoroutine(DestroyBulletAfterTime(bullet, bulletPrefabLifeTime));
@@ -91,7 +91,7 @@ public class Weapon : MonoBehaviour
 
     }
 
-    private void ResetShot()
+     private void ResetShot()
     {
         readyToShoot = true;
         allowReset = true;
