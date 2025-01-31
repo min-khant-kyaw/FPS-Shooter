@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,10 @@ public class WeaponManager : MonoBehaviour
     public List<GameObject> weaponSlots;
 
     public GameObject activeWeaponSlot;
+
+    [Header("Ammo")]
+    public int totalRifleAmmo = 0;
+    public int totalPistolAmmo = 0;
 
     private void Awake()
     {
@@ -62,6 +67,21 @@ public class WeaponManager : MonoBehaviour
         weapon.animator.enabled = true;
     }
 
+
+    internal void PickUpAmmo(AmmoBox ammoBox)
+    {
+        switch (ammoBox.ammoType) {
+            case AmmoBox.AmmoType.PistolAmmo:
+                totalPistolAmmo += ammoBox.ammoAmount;
+                break;
+            case AmmoBox.AmmoType.RifleAmmo:
+                totalRifleAmmo += ammoBox.ammoAmount;
+                break;
+            
+        }
+        
+    }
+
     private void DropCurrentWeapon(GameObject pickedUpWeapon)
     {
         if (activeWeaponSlot.transform.childCount > 0) {
@@ -91,4 +111,27 @@ public class WeaponManager : MonoBehaviour
         }        
     }
 
+    internal void DecreaseTotalAmmo(int bulletsToDecrease, Weapon.WeaponModel thisWeaponModel)
+    {
+        switch (thisWeaponModel) {
+            case Weapon.WeaponModel.M1911:
+                totalPistolAmmo -= bulletsToDecrease;
+                break;
+            case Weapon.WeaponModel.M4:
+                totalRifleAmmo -= bulletsToDecrease;
+                break;
+        }
+    }
+
+    public int CheckAmmoLeftFor(Weapon.WeaponModel thisWeaponModel)
+    {
+        switch (thisWeaponModel) {
+            case Weapon.WeaponModel.M1911:
+                return totalPistolAmmo;
+            case Weapon.WeaponModel.M4:
+                return totalRifleAmmo;
+            default:
+                return 0;
+        }
+    }
 }
