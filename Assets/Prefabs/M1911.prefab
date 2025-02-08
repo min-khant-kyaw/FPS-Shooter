@@ -4943,7 +4943,9 @@ MonoBehaviour:
   shootingDelay: 0.35
   bulletsPerBurst: 1
   burstBulletsLeft: 0
-  spreadIntensity: 0.05
+  spreadIntensity: 0
+  hipSpreadIntensity: 0.25
+  adsSpreadIntensity: 0.05
   bulletPrefab: {fileID: 5295274635062794765, guid: b6bd0826a07616d4e9e83dd5a7b58404,
     type: 3}
   bulletSpawn: {fileID: 6583634239055251582}
@@ -4951,11 +4953,12 @@ MonoBehaviour:
   bulletPrefabLifeTime: 3
   muzzleEffect: {fileID: 3958355220302967977}
   reloadTime: 1.5
-  magazineSize: 7
+  magazineSize: 8
   bulletsLeft: 0
   isReloading: 0
   spawnPosition: {x: 0, y: 1.35, z: 1.1}
   spawnRotation: {x: 0, y: 180, z: 0}
+  isADS: 0
   thisWeaponModel: 0
   currentShootingMode: 0
 --- !u!95 &929283487793236067

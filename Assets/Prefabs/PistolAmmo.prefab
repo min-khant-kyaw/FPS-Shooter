@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986566037053058749}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.7586772, y: 2.097, z: -4.6640935}
   m_LocalScale: {x: 0.0005, y: 0.0005, z: 0.0005}
   m_ConstrainProportionsScale: 0
@@ -103,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758d6e961d9e3a14c8146cb8a3f50f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoAmount: 200
+  ammoAmount: 64
   ammoType: 1
 --- !u!1 &5810541949541256061
 GameObject:

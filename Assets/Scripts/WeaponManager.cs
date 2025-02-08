@@ -50,6 +50,7 @@ public class WeaponManager : MonoBehaviour
     public void PickUpWeapon(GameObject pickedUpWeapon)
     {
         AddWeaponIntoActiveSlot(pickedUpWeapon);
+        pickedUpWeapon.GetComponent<BoxCollider>().enabled = false;
     }
 
     private void AddWeaponIntoActiveSlot(GameObject pickedUpWeapon)
@@ -89,6 +90,7 @@ public class WeaponManager : MonoBehaviour
 
             weaponToDrop.GetComponent<Weapon>().isActiveWeapon = false;
             weaponToDrop.GetComponent<Weapon>().animator.enabled = false;
+            weaponToDrop.GetComponent<BoxCollider>().enabled = true;
              
             weaponToDrop.transform.SetParent(pickedUpWeapon.transform.parent);
             weaponToDrop.transform.localPosition = pickedUpWeapon.transform.localPosition;

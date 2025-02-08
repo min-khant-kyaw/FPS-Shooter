@@ -28,6 +28,8 @@ public class HUDManager : MonoBehaviour
 
     public Sprite emptySlot;
 
+    public GameObject crosshair;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) {
