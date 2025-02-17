@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InteractionManager : MonoBehaviour
@@ -8,6 +9,7 @@ public class InteractionManager : MonoBehaviour
 
     public Weapon hoveredWeapon = null;
     public AmmoBox hoveredAmmoBox = null;
+    public Throwable hoveredThrowable = null;
 
     private void Awake()
     {
@@ -57,6 +59,21 @@ public class InteractionManager : MonoBehaviour
                 }
             }
 
+            // Throwable
+            if (objectHitByRaycast.GetComponent<Throwable>()) {
+                hoveredThrowable = objectHitByRaycast.gameObject.GetComponent<Throwable>();
+                hoveredThrowable.GetComponent<Outline>().enabled = true;
+
+                if (Input.GetKeyDown(KeyCode.F)) {
+                    WeaponManager.Instance.PickUpThrowable(hoveredThrowable);
+                    Destroy(objectHitByRaycast.gameObject);
+                }
+
+            } else {
+                if (hoveredThrowable) {
+                    hoveredThrowable.GetComponent<Outline>().enabled = false;
+                }
+            }
         }
     }
 
