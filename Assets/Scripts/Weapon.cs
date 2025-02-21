@@ -84,6 +84,12 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         if (isActiveWeapon) {
+
+            foreach (Transform child in transform) {
+                child.gameObject.layer = LayerMask.NameToLayer("WeaponRender");
+            }
+
+
             if (Input.GetMouseButtonDown(1)) {
                 EnterADS();
             }
@@ -118,6 +124,10 @@ public class Weapon : MonoBehaviour
             if (readyToShoot && isShooting && bulletsLeft > 0) {
                 burstBulletsLeft = bulletsPerBurst;
                 FireWeapon();
+            }
+        } else {
+            foreach (Transform child in transform) {
+                child.gameObject.layer = LayerMask.NameToLayer("Default");
             }
         }
     }
