@@ -18,6 +18,10 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource emptyMagazineSoundM1911;
 
+    public AudioSource throwablesChannel;
+    public AudioClip grenadeSound;
+
+
     private void Awake()
     {
         if (Instance != null && Instance != this) {
@@ -49,6 +53,11 @@ public class SoundManager : MonoBehaviour
                 reloadingSoundM4.Play();
                 break;
         }
+    }
+
+    public void PlayThrowableSound(Throwable throwable)
+    {
+        
     }
 
 }

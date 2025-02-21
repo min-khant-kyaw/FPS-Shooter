@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
@@ -15,13 +16,16 @@ public class WeaponManager : MonoBehaviour
     public int totalRifleAmmo = 0;
     public int totalPistolAmmo = 0;
 
-    [Header("Throwables")]
-    public int grenades = 0;
+    [Header("Throwables General")]
     public float throwForce = 10f;
-    public GameObject grenadePrefab;
     public GameObject throwableSpawn;
     public float forceMultiplier = 0f;
     public float forceMultiplierLimit = 2f;
+
+    [Header("Lethals")]
+    public int lethalsCount = 0;
+    public Throwable.ThrowableType equippedLethalType;
+    public GameObject grenadePrefab;
 
     private void Awake()
     {
@@ -35,6 +39,8 @@ public class WeaponManager : MonoBehaviour
     public void Start()
     {
         activeWeaponSlot = weaponSlots[0];
+
+        equippedLethalType = Throwable.ThrowableType.None;
     }
 
     public void Update()
@@ -62,7 +68,7 @@ public class WeaponManager : MonoBehaviour
             }
         }
         if (Input.GetKeyUp(KeyCode.G)) {
-            if (grenades > 0) {
+            if (lethalsCount > 0) {
                 ThrowLethal();
             }
             forceMultiplier = 0;
@@ -169,20 +175,33 @@ public class WeaponManager : MonoBehaviour
         
         switch (throwable.throwableType) {
             case Throwable.ThrowableType.Grenade:
-                PickUpGrenade();
+                PickUpThrowableAsLethal(Throwable.ThrowableType.Grenade);
                 break;
         }
     }
 
-    private void PickUpGrenade()
+    private void PickUpThrowableAsLethal(Throwable.ThrowableType lethal)
     {
-        grenades += 1;
-        HUDManager.Instance.UpdateThrowables(Throwable.ThrowableType.Grenade);
+        if (equippedLethalType == lethal || equippedLethalType == Throwable.ThrowableType.None) {
+            equippedLethalType = lethal;
+
+            if (lethalsCount < 2) {
+                lethalsCount += 1;
+                Destroy(InteractionManager.Instance.hoveredThrowable.gameObject);
+                HUDManager.Instance.UpdateThrowablesUI();
+            }
+            else {
+                print("Lethals limit reached");
+            }
+        } else {
+            // Cannot pickup different lethal
+            // Option to swap lethals
+        }
     }
 
     private void ThrowLethal()
     {
-        GameObject lethalPrefab = grenadePrefab;
+        GameObject lethalPrefab = GetThrowablePrefab();
         
         GameObject throwable = Instantiate(lethalPrefab, throwableSpawn.transform.position, Camera.main.transform.rotation);
         Rigidbody rb = throwable.GetComponent<Rigidbody>();
@@ -191,10 +210,25 @@ public class WeaponManager : MonoBehaviour
 
         throwable.GetComponent<Throwable>().hasBeenThrown = true;
     
-        grenades -= 1;
-        HUDManager.Instance.UpdateThrowables(Throwable.ThrowableType.Grenade);
+        lethalsCount -= 1;
+
+        if (lethalsCount <= 0) {
+            equippedLethalType = Throwable.ThrowableType.None;
+        }
+
+        HUDManager.Instance.UpdateThrowablesUI();
     }
 
-    #endregion    
+    private GameObject GetThrowablePrefab()
+    {
+        switch (equippedLethalType) {
+            case Throwable.ThrowableType.Grenade:
+                return grenadePrefab;
+        }
+
+        return new();
+    }
+
+    #endregion
 
 }

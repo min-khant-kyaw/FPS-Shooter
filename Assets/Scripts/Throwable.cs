@@ -17,9 +17,10 @@ public class Throwable : MonoBehaviour
 
     public enum ThrowableType
     {
+        None,
         Grenade,
         Flashbang,
-        Smoke,
+        Smoke_Grenade,
     }
 
     public ThrowableType throwableType;
@@ -51,7 +52,32 @@ public class Throwable : MonoBehaviour
         switch (throwableType) {
             case ThrowableType.Grenade:
                 GrenadeEffect();
+                Destroy(gameObject);
                 break;
+            case ThrowableType.Smoke_Grenade:
+                SmokeGrenadeEffect();
+                Destroy(gameObject);
+                break;
+        }
+    }
+
+    private void SmokeGrenadeEffect()
+    {
+        // Visual Effect
+        GameObject explosionEffect = GlobalReferences.Instance.smokeExplosionEffect;
+        Instantiate(explosionEffect, transform.position, transform.rotation);
+
+        // Play Sound
+        SoundManager.Instance.throwablesChannel.PlayOneShot(SoundManager.Instance.grenadeSound);
+
+        // Physical Effect
+        Collider[] colliders = Physics.OverlapSphere(transform.position, damageRadius);
+        foreach (Collider objectInRange in colliders) {
+            Rigidbody rb = objectInRange.GetComponent<Rigidbody>();
+            if (rb != null) {
+                // Apply blindness to enemies
+            }
+
         }
     }
 
@@ -60,6 +86,9 @@ public class Throwable : MonoBehaviour
         // Visual Effect
         GameObject explosionEffect = GlobalReferences.Instance.grenadeExplosionEffect;
         Instantiate(explosionEffect, transform.position, transform.rotation);
+
+        // Play Sound
+        SoundManager.Instance.throwablesChannel.PlayOneShot(SoundManager.Instance.grenadeSound);
 
         // Physical Effect
         Collider[] colliders = Physics.OverlapSphere(transform.position, damageRadius);
@@ -71,8 +100,6 @@ public class Throwable : MonoBehaviour
 
             // Apply damage to any Enemies in the damageRadius
         }
-
-
     }
 
 }

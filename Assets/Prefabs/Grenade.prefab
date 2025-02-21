@@ -200,7 +200,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2.097, z: -5.46}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 818412024500261877}
   m_Father: {fileID: 0}
@@ -321,7 +321,7 @@ MonoBehaviour:
   damageRadius: 20
   explosionForce: 1200
   hasBeenThrown: 0
-  throwableType: 0
+  throwableType: 1
 --- !u!114 &7310770453433828805
 MonoBehaviour:
   m_ObjectHideFlags: 0
