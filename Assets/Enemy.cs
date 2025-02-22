@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Zombie : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField] private int HP = 100;
     private Animator animator;
@@ -26,7 +26,8 @@ public class Zombie : MonoBehaviour
                 animator.SetTrigger("DIE1");
             } else {            
                 animator.SetTrigger("DIE2");
-            }            
+            }
+            GetComponent<CapsuleCollider>().enabled = false;
         } else {
             animator.SetTrigger("DAMAGE");
         }

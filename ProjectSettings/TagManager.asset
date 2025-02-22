@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - FxTemporaire
   - Zombie
+  - Enemy
   layers:
   - Default
   - TransparentFX
