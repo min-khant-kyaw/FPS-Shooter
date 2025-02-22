@@ -9,6 +9,7 @@ TagManager:
   - FxTemporaire
   - Zombie
   - Enemy
+  - Waypoints
   layers:
   - Default
   - TransparentFX

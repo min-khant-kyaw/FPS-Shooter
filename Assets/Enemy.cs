@@ -32,13 +32,4 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger("DAMAGE");
         }
     }
-
-    private void Update()
-    {
-        if (navAgent.velocity.magnitude > 0.1f) {
-            animator.SetBool("isWalking", true);
-        } else {
-            animator.SetBool("isWalking", false);
-        }
-    }
 }
