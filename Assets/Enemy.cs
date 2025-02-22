@@ -32,4 +32,16 @@ public class Enemy : MonoBehaviour
             animator.SetTrigger("DAMAGE");
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 3f); // Attacking // Stop Attacking
+        
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, 18f); // Detection (Start Chasing)
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 21f); // Stop Chasing
+    }
 }

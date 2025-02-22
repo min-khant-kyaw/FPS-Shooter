@@ -11,7 +11,7 @@ public class ZombieChaseState : StateMachineBehaviour
     public float chaseSpeed = 6f;
 
     public float stopChasingDistance = 21;
-    public float attackingDistance = 4f;
+    public float attackingDistance = 2.5f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
