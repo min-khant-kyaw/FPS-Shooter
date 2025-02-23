@@ -32,6 +32,12 @@ public class SoundManager : MonoBehaviour
     public AudioClip zombieAttack;
     public AudioClip zombieHurt;
     public AudioClip zombieDeath;
+
+    [Header("Player")]
+    public AudioSource playerChannel;
+    public AudioClip playerHurt;
+    public AudioClip playerDeath;
+    public AudioClip gameOverMusic;
     
 
 
