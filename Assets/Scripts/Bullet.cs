@@ -22,12 +22,29 @@ public class Bullet : MonoBehaviour
         
         if (objectHit.gameObject.CompareTag("Enemy")) {
             print("hits an Enemy");
-            objectHit.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
+            if (objectHit.gameObject.GetComponent<Enemy>().isDead == false) {
+                objectHit.gameObject.GetComponent<Enemy>().TakeDamage(bulletDamage);
+            }
+            CreateBloodSprayEffect(objectHit);
             Destroy(gameObject);
         }
     }
+    
+    private void CreateBloodSprayEffect(Collision objectHit)
+    {
+        ContactPoint contact = objectHit.contacts[0];
 
-    void CreateBulletImpactEffect(Collision objectHit)
+        GameObject bloodSpray = Instantiate(
+            GlobalReferences.Instance.bloodSprayEffect,
+            contact.point,
+            Quaternion.LookRotation(contact.normal)
+            
+        );
+    
+        bloodSpray.transform.SetParent(objectHit.gameObject.transform);
+    }
+
+    private void CreateBulletImpactEffect(Collision objectHit)
     {
         ContactPoint contact = objectHit.contacts[0];
 
