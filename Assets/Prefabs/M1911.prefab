@@ -4896,7 +4896,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.16507079, y: 0.16507079, z: 0.6875694, w: 0.6875694}
   m_LocalPosition: {x: -0.66, y: 2.198, z: -5.19}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6669341027232577145}
@@ -4957,7 +4957,7 @@ MonoBehaviour:
   magazineSize: 8
   bulletsLeft: 0
   isReloading: 0
-  spawnPosition: {x: 0, y: 1.35, z: 1.1}
+  spawnPosition: {x: 0.1, y: 0.45, z: 0.6}
   spawnRotation: {x: 0, y: 180, z: 0}
   isADS: 0
   thisWeaponModel: 0
@@ -5091,9 +5091,9 @@ Transform:
   m_GameObject: {fileID: 8293738812469506256}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.05, y: -0.015, z: 0.1053}
+  m_LocalPosition: {x: -0.04, y: -0.015, z: 0.1053}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8647627672664470226}
   - {fileID: 8074176277124224560}

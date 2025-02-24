@@ -91,6 +91,9 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5834477777462673612}
+  - {fileID: 5964006261260347185}
+  - {fileID: -2422673635390456161}
+  - {fileID: 2758572152378945498}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -143,7 +146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3293e1f73212906408ad55c93cee3e1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stopAttackingDistance: 2.5
+  stopAttackingDistance: 1.5
 --- !u!1107 &-3218099265833086463
 AnimatorStateMachine:
   serializedVersion: 6
@@ -167,7 +170,7 @@ AnimatorStateMachine:
     m_Position: {x: -50, y: -140, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6488819848377116033}
-    m_Position: {x: 180, y: -110, z: 0}
+    m_Position: {x: 230, y: -160, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8342563143241509949}
     m_Position: {x: 670, y: -40, z: 0}
@@ -187,6 +190,31 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: 8256990083778716562}
+--- !u!1101 &-2422673635390456161
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isAttacking
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 6845705509483252225}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.2
+  m_TransitionOffset: 0
+  m_ExitTime: 0.875
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-1721935742061923663
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -224,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7a3cedca5cc41458494530c6919400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleTime: 4
+  idleTime: 1
   detectionAreaRadius: 18
 --- !u!1101 &-1628882444236297473
 AnimatorStateTransition:
@@ -429,6 +457,31 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &2758572152378945498
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isPatrolling
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2444011800911299777}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.25
+  m_TransitionOffset: 0
+  m_ExitTime: 0.875
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &3765401968615647574
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -493,10 +546,35 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.1
   m_TransitionOffset: 0
   m_ExitTime: 0.875
-  m_HasExitTime: 1
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &5964006261260347185
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isChasing
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -8342563143241509949}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.2
+  m_TransitionOffset: 0
+  m_ExitTime: 0.875
+  m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -567,9 +645,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c722e99f0d87542ab8813306b6c0d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chaseSpeed: 6
+  chaseSpeed: 5
   stopChasingDistance: 21
-  attackingDistance: 2.5
+  attackingDistance: 1.5
 --- !u!1101 &7893817249582477621
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
