@@ -6,10 +6,10 @@ using UnityEngine;
 public class ZombieIdleState : StateMachineBehaviour
 {
     float timer;
-    public float idleTime = 0f;
+    public float idleTime = 2f;
 
     Transform player;
-    public float detectionAreaRadius = 18f;
+    public float detectionAreaRadius = 12f;
 
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -8,10 +8,11 @@ public class ZombieChaseState : StateMachineBehaviour
     Transform player;
     NavMeshAgent agent;
     
-    public float chaseSpeed = 6f;
+    public float chaseSpeed = 4f;
 
-    public float stopChasingDistance = 21;
-    public float attackingDistance = 2.5f;
+    public float stopChasingDistance = 15f;
+    public float attackingDistance = 1.5f;
+    public float chaseHeightThreshold = 5f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -28,20 +29,31 @@ public class ZombieChaseState : StateMachineBehaviour
             SoundManager.Instance.zombieChannel.PlayOneShot(SoundManager.Instance.zombieChase);
         }
 
+        // Get player and zombie positions
+        Vector3 playerPos = player.position;
+        Vector3 zombiePos = animator.transform.position;
+
+        // Calculate horizontal distance (XZ-plane)
+        float horizontalDistance = Vector2.Distance(
+            new Vector2(playerPos.x, playerPos.z), 
+            new Vector2(zombiePos.x, zombiePos.z)
+        );
+
+        // Calculate vertical distance (Y-axis)
+        float verticalDifference = Mathf.Abs(playerPos.y - zombiePos.y);
+
+        // Check if player is within valid range and height
+        bool canDetectPlayer = horizontalDistance <= stopChasingDistance && verticalDifference <= chaseHeightThreshold;
+        bool canAttackPlayer = horizontalDistance <= attackingDistance && verticalDifference <= chaseHeightThreshold;
+
         agent.SetDestination(player.position);
-        animator.transform.LookAt(player);
+        animator.transform.LookAt(new Vector3(playerPos.x, zombiePos.y, playerPos.z));
 
-        float distanceFromPlayer = Vector3.Distance(player.position, animator.transform.position);
+        // --- Check if the player is out of range --- //
+        animator.SetBool("isChasing", canDetectPlayer);
 
-        // --- Check if the player is out of range of agent --- //
-        if (distanceFromPlayer > stopChasingDistance) {
-            animator.SetBool("isChasing", false);
-        }
-
-        // --- Check if the player is in range of attack --- ///
-        if (distanceFromPlayer < attackingDistance) {
-            animator.SetBool("isAttacking", true);
-        }
+        // --- Check if the player is in attack range --- //
+        animator.SetBool("isAttacking", canAttackPlayer);
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

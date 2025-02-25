@@ -7,13 +7,15 @@ using UnityEngine.AI;
 public class ZombiePatrolState : StateMachineBehaviour
 {
     float timer;
-    public float patrollingTime = 10f;
+    public float patrollingTime = 20f;
 
     Transform player;
     NavMeshAgent agent;
 
-    public float detectionAreaRadius = 18f;
-    public float patrolSpeed = 2f;
+    public float detectionAreaRadius = 12f;
+    public float patrolSpeed = 1f;
+    public float detectionHeightThreshold  = 3f;
+
 
     List<Transform> waypointsList = new List<Transform>();
 
@@ -53,9 +55,21 @@ public class ZombiePatrolState : StateMachineBehaviour
             animator.SetBool("isPatrolling", false);
         }
 
-        // --- Transition to Chase State --- //
-        float distanceFromPlayer = Vector3.Distance(player.position, animator.transform.position);
-        if (distanceFromPlayer < detectionAreaRadius) {
+        // --- Transition to Chase State (but only if within valid height range) --- //
+        Vector3 playerPos = player.position;
+        Vector3 zombiePos = animator.transform.position;
+
+        // Calculate horizontal (XZ) distance
+        float horizontalDistance = Vector2.Distance(
+            new Vector2(playerPos.x, playerPos.z), 
+            new Vector2(zombiePos.x, zombiePos.z)
+        );
+
+        // Calculate vertical (Y-axis) difference
+        float verticalDifference = Mathf.Abs(playerPos.y - zombiePos.y);
+
+        // Only start chasing if within detection range AND within valid height difference
+        if (horizontalDistance < detectionAreaRadius && verticalDifference <= detectionHeightThreshold) {
             animator.SetBool("isChasing", true);
         }
     }
