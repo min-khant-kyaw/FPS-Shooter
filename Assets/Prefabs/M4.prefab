@@ -199,7 +199,7 @@ Transform:
   m_LocalRotation: {x: 0.61237246, y: 0.61237246, z: 0.35355335, w: 0.35355335}
   m_LocalPosition: {x: 1.612, y: 0.03399992, z: -5.092}
   m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 7040548819724125956}
   - {fileID: 6033815360700124886}
@@ -312,7 +312,7 @@ MonoBehaviour:
   magazineSize: 30
   bulletsLeft: 0
   isReloading: 0
-  spawnPosition: {x: 0.25, y: 1.15, z: 1.1}
+  spawnPosition: {x: 0.25, y: 0.08, z: 1.2}
   spawnRotation: {x: 0, y: 180, z: 0}
   isADS: 0
   thisWeaponModel: 1

@@ -85,7 +85,7 @@ public class Weapon : MonoBehaviour
     void Update()
     {
         if (isActiveWeapon) {
-            gameObject.layer = LayerMask.NameToLayer("WeaponRender");
+            // gameObject.layer = LayerMask.NameToLayer("WeaponRender");
 
             if (Input.GetMouseButtonDown(1)) {
                 EnterADS();
@@ -196,7 +196,7 @@ public class Weapon : MonoBehaviour
     {
         SoundManager.Instance.PlayReloadSound(thisWeaponModel);
         
-        animator.SetTrigger("RELOAD");
+        // animator.SetTrigger("RELOAD");
 
         isReloading = true;
         Invoke("ReloadCompleted", reloadTime);
