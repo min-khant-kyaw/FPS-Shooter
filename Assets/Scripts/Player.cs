@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
@@ -58,6 +59,21 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         gameOverUI.gameObject.SetActive(true);
+
+        int waveSurvived = GlobalReferences.Instance.waveNumber - 1;
+
+        if (waveSurvived > SaveLoadManager.Instance.LoadHighScore()) {
+            SaveLoadManager.Instance.SaveHighScore(waveSurvived);
+        }
+
+        StartCoroutine(ReturnToMainMenu())
+    }
+
+    private IEnumerator ReturnToMainMenu()
+    {
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("MainMenu");
     }
 
     private IEnumerator BloodyScreenEffect()

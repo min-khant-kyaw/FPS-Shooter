@@ -27,6 +27,7 @@ MonoBehaviour:
     m_StyleName: Bold
     m_PointSize: 77
     m_Scale: 1
+    m_UnitsPerEM: 0
     m_LineHeight: 110.341
     m_AscentLine: 73.766
     m_CapLine: 50
@@ -2810,7 +2811,8 @@ Texture2D:
   m_MipCount: 1
   m_IsReadable: 0
   m_IsPreProcessed: 0
-  m_IgnoreMasterTextureLimit: 0
+  m_IgnoreMipmapLimit: 0
+  m_MipmapLimitGroupName: 
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
   m_VTOnly: 0
