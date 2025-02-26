@@ -6,15 +6,14 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public AudioSource main_channel;
-    public AudioClip bg_Music;
     public TMP_Text highScoreUI;
     string newGameScene = "MainScene";
+    public AudioSource mainChannel;
+    public AudioClip bgMusic;
 
-
-    void Start() 
+    private void Start() 
     {
-        main_channel.PlayOneShot(bg_Music);
+        mainChannel.PlayOneShot(bgMusic);
 
         // Set High Score text
         int highScore = SaveLoadManager.Instance.LoadHighScore();
@@ -23,7 +22,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartNewGame()
     {
-        main_channel.Stop();
+        mainChannel.Stop();
 
         SceneManager.LoadScene(newGameScene);
     }

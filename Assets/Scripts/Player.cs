@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
             SaveLoadManager.Instance.SaveHighScore(waveSurvived);
         }
 
-        StartCoroutine(ReturnToMainMenu())
+        StartCoroutine(ReturnToMainMenu());
     }
 
     private IEnumerator ReturnToMainMenu()
