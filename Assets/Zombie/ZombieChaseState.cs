@@ -10,9 +10,9 @@ public class ZombieChaseState : StateMachineBehaviour
     
     public float chaseSpeed = 4f;
 
-    public float stopChasingDistance = 18f;
+    public float stopChasingDistance = 22f;
     public float attackingDistance = 1f;
-    public float chaseHeightThreshold = 5f;
+    public float chaseHeightThreshold = 7f;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -46,9 +46,11 @@ public class ZombieChaseState : StateMachineBehaviour
         bool canDetectPlayer = horizontalDistance <= stopChasingDistance && verticalDifference <= chaseHeightThreshold;
         bool canAttackPlayer = horizontalDistance <= attackingDistance && verticalDifference <= chaseHeightThreshold;
 
-        agent.SetDestination(player.position);
-        animator.transform.LookAt(new Vector3(playerPos.x, zombiePos.y, playerPos.z));
-
+        if (agent != null && agent.enabled && agent.isOnNavMesh) {
+            agent.SetDestination(player.position);
+            animator.transform.LookAt(new Vector3(playerPos.x, zombiePos.y, playerPos.z));
+        }
+        
         // --- Check if the player is out of range --- //
         animator.SetBool("isChasing", canDetectPlayer);
 
@@ -58,8 +60,10 @@ public class ZombieChaseState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Stop the agent
-        agent.SetDestination(animator.transform.position);
-        SoundManager.Instance.zombieChannel.Stop();
+        if (agent != null && agent.enabled && agent.isOnNavMesh) {
+            // Stop the agent
+            agent.SetDestination(animator.transform.position);
+            SoundManager.Instance.zombieChannel.Stop();
+        }
     }
 }

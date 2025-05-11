@@ -15,6 +15,8 @@ public class GlobalReferences : MonoBehaviour
 
     public int waveNumber;
 
+    public float concentrationLevel;
+
     private void Awake()
     {
         if (Instance != null && Instance != this) {

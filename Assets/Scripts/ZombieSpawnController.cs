@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class ZombieSpawnController : MonoBehaviour
@@ -26,6 +27,8 @@ public class ZombieSpawnController : MonoBehaviour
     public TextMeshProUGUI waveOverUI;
     public TextMeshProUGUI cooldownCounterUI;
     public TextMeshProUGUI currentWaveUI;
+    
+    public Transform[] spawnPoints; // Array of spawn points
 
     private void Start() {
         currentZombiePerWave = initialZombiePerWave;
@@ -47,9 +50,13 @@ public class ZombieSpawnController : MonoBehaviour
     private IEnumerator SpawnWave()
     {
         for (int i = 0; i < currentZombiePerWave; i++) {
+            
+            // Select a random spawn point
+            Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
             // Generate a random offset for zombie spawn location
             Vector3 spawnOffset = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f,1f));
-            Vector3 spawnPosition = transform.position + spawnOffset;
+            Vector3 spawnPosition = spawnPoint.position + spawnOffset;
 
             var zombie = Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
 
@@ -62,27 +69,21 @@ public class ZombieSpawnController : MonoBehaviour
     }
 
     private void Update() {
-        // Get all dead zombies
-        List<Enemy> zombiesToRemove = new List<Enemy>();
+        // Check if all zombies are dead
+        bool allZombiesDead = true;
         foreach (Enemy zombie in currentZombiesAlive) {
-            if (zombie.isDead) {
-                zombiesToRemove.Add(zombie);
+            if (!zombie.isDead) {
+                allZombiesDead = false;
+                break; // No need to check further
             }
         }
 
-        // Remove the zombies
-        foreach (Enemy zombie in zombiesToRemove) {
-            currentZombiesAlive.Remove(zombie);
-        }
-
-        zombiesToRemove.Clear();
-
-        if (currentZombiesAlive.Count == 0 && inCooldown == false) {
-            // Start cooldown for next wave
+        // If all zombies are dead and we're not in cooldown, start cooldown
+        if (allZombiesDead && !inCooldown) {
             StartCoroutine(WaveCooldown());
         }
 
-        // Run the cooldown Counter
+        // Run the cooldown counter
         if (inCooldown) {
             cooldownCounter -= Time.deltaTime;
         } else {
@@ -92,10 +93,22 @@ public class ZombieSpawnController : MonoBehaviour
         cooldownCounterUI.text = cooldownCounter.ToString("F0");
     }
 
+
     private IEnumerator WaveCooldown()
     {
         inCooldown = true;
         waveOverUI.gameObject.SetActive(true);
+
+        // Stop all zombie-related sounds before destroying
+        SoundManager.Instance.zombieChannel.Stop();
+        SoundManager.Instance.zombieChannel2.Stop();
+
+        // Destroy all zombies
+        foreach (Enemy zombie in currentZombiesAlive) {
+            Destroy(zombie.gameObject);
+        }
+
+        currentZombiesAlive.Clear(); // Clear the list after destroying
 
         yield return new WaitForSeconds(waveCooldown);
 
@@ -105,4 +118,5 @@ public class ZombieSpawnController : MonoBehaviour
         currentZombiePerWave += increaseRatePerWave;
         StartNextWave();
     }
+
 }

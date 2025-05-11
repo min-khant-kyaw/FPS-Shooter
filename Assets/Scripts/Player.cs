@@ -16,15 +16,29 @@ public class Player : MonoBehaviour
 
     public bool isDead;
 
+    public int healingRate = 1;
+    private float healTimer = 0f;
+    private float healInterval = 2f;
+
     private void Start()
     {
         playerHealthUI.text = $"Health: {HP}";
     }
 
+    private void Update() {
+        if (!isDead) {
+            healTimer += Time.deltaTime;
+            if (healTimer >= healInterval) {
+                PlayerHealing();
+                healTimer = 0f;
+            }
+        }
+    }
+
     public void TakeDamage(int damageAmount)
     {
         HP -= damageAmount;
-        
+    
         if (HP <= 0) {
             print("Player Dead");
             PlayerDead();
@@ -33,6 +47,25 @@ public class Player : MonoBehaviour
             print("Player Hit");
             SoundManager.Instance.playerChannel.PlayOneShot(SoundManager.Instance.playerHurt);
             StartCoroutine(BloodyScreenEffect());
+            playerHealthUI.text = $"Health: {HP}";
+        }
+    }
+
+    private void PlayerHealing()
+    {
+        if (HUDManager.Instance != null && HUDManager.Instance.concentrationType != null) {
+            if (HUDManager.Instance.concentrationType.text == "Focused") {
+                healingRate = 1;
+            } else if (HUDManager.Instance.concentrationType.text == "Relaxed") {
+                healingRate = 3;
+            }
+
+            HP += healingRate;
+            // Cap HP at 100
+            if (HP > 100) {
+                HP = 100;
+            }
+
             playerHealthUI.text = $"Health: {HP}";
         }
     }

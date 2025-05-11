@@ -167,8 +167,14 @@ public class Weapon : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, Quaternion.identity);
 
         Bullet bul = bullet.GetComponent<Bullet>();
-        bul.bulletDamage = weaponDamage;
-        
+
+        if (HUDManager.Instance != null && HUDManager.Instance.concentrationType != null && HUDManager.Instance.concentrationType.text == "Focused") {
+            bul.bulletDamage = weaponDamage + 10;
+        } else {
+            bul.bulletDamage = weaponDamage;
+        }
+        Debug.Log("Weapon Damage: " + bul.bulletDamage);
+
         // Point the bullet towards Shooting Direction
         bullet.transform.forward = shootingDirection;
         

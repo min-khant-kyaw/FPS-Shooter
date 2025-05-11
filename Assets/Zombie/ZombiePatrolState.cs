@@ -7,14 +7,14 @@ using UnityEngine.AI;
 public class ZombiePatrolState : StateMachineBehaviour
 {
     float timer;
-    public float patrollingTime = 20f;
+    public float patrollingTime = 200f;
 
     Transform player;
     NavMeshAgent agent;
 
-    public float detectionAreaRadius = 15f;
+    public float detectionAreaRadius = 20f;
     public float patrolSpeed = 1f;
-    public float detectionHeightThreshold  = 3f;
+    public float detectionHeightThreshold  = 5f;
 
 
     List<Transform> waypointsList = new List<Transform>();
@@ -33,8 +33,11 @@ public class ZombiePatrolState : StateMachineBehaviour
         foreach (Transform t in waypointCluster.transform) {
             waypointsList.Add(t);
         }
-        Vector3 nextPosition = waypointsList[Random.Range(0, waypointsList.Count)].position;
-        agent.SetDestination(nextPosition);
+
+        if (agent != null && agent.enabled && agent.isOnNavMesh) {
+            Vector3 nextPosition = waypointsList[Random.Range(0, waypointsList.Count)].position;
+            agent.SetDestination(nextPosition);
+        }
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -45,7 +48,7 @@ public class ZombiePatrolState : StateMachineBehaviour
         }
 
         // --- Check if agent arrived at selected waypoint, then move to another waypoint --- //
-        if (agent.remainingDistance <= agent.stoppingDistance) {
+        if (agent != null && agent.enabled && agent.isOnNavMesh && agent.remainingDistance <= agent.stoppingDistance) {
             agent.SetDestination(waypointsList[Random.Range(0, waypointsList.Count)].position);
         }
 
@@ -76,8 +79,10 @@ public class ZombiePatrolState : StateMachineBehaviour
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Stop the agent
-        agent.SetDestination(agent.transform.position);
-        SoundManager.Instance.zombieChannel.Stop();
+        if (agent != null && agent.enabled && agent.isOnNavMesh) {
+            // Stop the agent
+            agent.SetDestination(animator.transform.position);
+            SoundManager.Instance.zombieChannel.Stop();
+        }
     }
 }

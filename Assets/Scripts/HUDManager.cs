@@ -10,6 +10,11 @@ public class HUDManager : MonoBehaviour
 {
     public static HUDManager Instance { get; set; }
 
+    [Header("EEG")]
+    public Slider concentrationLevel;
+    public TextMeshProUGUI concentrationType;
+    private Image sliderFillImage;
+
     [Header("Ammo")]
     public TextMeshProUGUI magazineAmmoUI;
     public TextMeshProUGUI totalAmmoUI;
@@ -38,10 +43,16 @@ public class HUDManager : MonoBehaviour
         } else {
             Instance = this;
         }
+        
+        if (concentrationLevel != null && concentrationLevel.fillRect != null) {
+            sliderFillImage = concentrationLevel.fillRect.GetComponent<Image>();
+        }
     }
 
     private void Update()
     {
+        UpdateConcentrationUI();
+
         Weapon activeWeapon = WeaponManager.Instance.activeWeaponSlot.GetComponentInChildren<Weapon>();
         Weapon inactiveWeapon = GetInactiveWeaponSlot().GetComponentInChildren<Weapon>();
 
@@ -71,6 +82,24 @@ public class HUDManager : MonoBehaviour
 
         if (WeaponManager.Instance.tacticalCount <= 0) {
             tacticalUI.sprite = greySlot;
+        }
+    }
+
+    private void UpdateConcentrationUI()
+    {
+        if (sliderFillImage != null && concentrationType != null && concentrationLevel != null)
+        {
+            concentrationLevel.value = EEGManager.Instance.focus_score;
+            Debug.Log("focus score: " + concentrationLevel.value);
+            if (concentrationLevel.value < 0.5f) {
+                    concentrationType.text = "Focused";
+                    concentrationType.color = Color.red;
+                    sliderFillImage.color = Color.red;
+                } else {
+                    concentrationType.text = "Relaxed";
+                    concentrationType.color = Color.green;
+                    sliderFillImage.color = Color.green;
+                }
         }
     }
 
