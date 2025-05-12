@@ -12,9 +12,9 @@ public class ZombiePatrolState : StateMachineBehaviour
     Transform player;
     NavMeshAgent agent;
 
-    public float detectionAreaRadius = 20f;
+    public float detectionAreaRadius = 50f;
     public float patrolSpeed = 1f;
-    public float detectionHeightThreshold  = 5f;
+    public float detectionHeightThreshold = 20f;
 
 
     List<Transform> waypointsList = new List<Transform>();

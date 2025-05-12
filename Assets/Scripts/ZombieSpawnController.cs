@@ -10,16 +10,16 @@ public class ZombieSpawnController : MonoBehaviour
 {
     public int initialZombiePerWave = 5;
     public int currentZombiePerWave;
+    public int increaseRatePerWave = 5;
 
     public float spawnDelay = 0.5f; // Delay between each Zombie spawn
 
     public int currentWave = 0;
-    public float waveCooldown = 10.0f; // Time in seconds between Zombie Waves
+    public int finalWave = 2;
 
+    public float waveCooldown = 10.0f; // Time in seconds between Zombie Waves
     public bool inCooldown;
     public float cooldownCounter = 0;
-
-    public int increaseRatePerWave = 5;
 
     public List<Enemy> currentZombiesAlive;
 
@@ -58,7 +58,7 @@ public class ZombieSpawnController : MonoBehaviour
             Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
             // Generate a random offset for zombie spawn location
-            Vector3 spawnOffset = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f,1f));
+            Vector3 spawnOffset = new Vector3(Random.Range(-2f, 2f), 0f, Random.Range(-2f,2f));
             Vector3 spawnPosition = spawnPoint.position + spawnOffset;
 
             var zombie = Instantiate(zombiePrefab, spawnPosition, Quaternion.identity);
@@ -83,7 +83,7 @@ public class ZombieSpawnController : MonoBehaviour
 
         // If all zombies are dead and we're not in cooldown, start cooldown
         if (allZombiesDead && !inCooldown) {
-            if (currentWave == 1) {
+            if (currentWave == finalWave) {
                 Debug.Log("Trigger Game Completed");
                 GameCompleted();
             } else {
@@ -130,6 +130,8 @@ public class ZombieSpawnController : MonoBehaviour
 
     private void GameCompleted()
     {
+        SoundManager.Instance.playerChannel.clip = SoundManager.Instance.gameOverMusic;
+        SoundManager.Instance.playerChannel.PlayDelayed(2f);
         // Stop all zombie-related sounds
         SoundManager.Instance.zombieChannel.Stop();
         SoundManager.Instance.zombieChannel2.Stop();
@@ -139,9 +141,6 @@ public class ZombieSpawnController : MonoBehaviour
             Destroy(zombie.gameObject);
         }
         currentZombiesAlive.Clear();
-        
-        SoundManager.Instance.playerChannel.clip = SoundManager.Instance.gameOverMusic;
-        SoundManager.Instance.playerChannel.PlayDelayed(2f);
         
         GetComponent<ScreenBlackout>().StartFade();
         StartCoroutine(GameCompletedUI());
@@ -157,7 +156,7 @@ public class ZombieSpawnController : MonoBehaviour
     
     private IEnumerator ReturnToMainMenu()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
 
         SceneManager.LoadScene("MainMenu");
     }
