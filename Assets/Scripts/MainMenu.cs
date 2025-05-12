@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -10,25 +11,31 @@ public class MainMenu : MonoBehaviour
     string newGameScene = "MainScene";
     public AudioSource mainChannel;
     public AudioClip bgMusic;
+    public Button startButton;
+    public Button exitButton;
 
     private void Start() 
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         mainChannel.PlayOneShot(bgMusic);
-
-        // Set High Score text
-        int highScore = SaveLoadManager.Instance.LoadHighScore();
-        highScoreUI.text = $"Top Wave Survived: {highScore}";
+        startButton.onClick.AddListener(StartNewGame);
+        exitButton.onClick.AddListener(ExitApplication);
     }
 
     public void StartNewGame()
     {
-        mainChannel.Stop();
+        Debug.Log("StartNewGame called");
+        if (mainChannel != null)
+            mainChannel.Stop();
 
         SceneManager.LoadScene(newGameScene);
     }
 
+
     public void ExitApplication()
     {
+        Debug.Log("Quit Application");
         Application.Quit();
     }
 

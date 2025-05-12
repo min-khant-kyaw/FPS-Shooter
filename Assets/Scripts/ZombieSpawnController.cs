@@ -4,6 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ZombieSpawnController : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class ZombieSpawnController : MonoBehaviour
     public TextMeshProUGUI waveOverUI;
     public TextMeshProUGUI cooldownCounterUI;
     public TextMeshProUGUI currentWaveUI;
+
+    public GameObject gameCompleteUI;
     
     public Transform[] spawnPoints; // Array of spawn points
 
@@ -80,7 +83,13 @@ public class ZombieSpawnController : MonoBehaviour
 
         // If all zombies are dead and we're not in cooldown, start cooldown
         if (allZombiesDead && !inCooldown) {
-            StartCoroutine(WaveCooldown());
+            if (currentWave == 1) {
+                Debug.Log("Trigger Game Completed");
+                GameCompleted();
+            } else {
+                // Start cooldown for waves 1-9
+                StartCoroutine(WaveCooldown());
+            }
         }
 
         // Run the cooldown counter
@@ -117,6 +126,40 @@ public class ZombieSpawnController : MonoBehaviour
 
         currentZombiePerWave += increaseRatePerWave;
         StartNextWave();
+    }
+
+    private void GameCompleted()
+    {
+        // Stop all zombie-related sounds
+        SoundManager.Instance.zombieChannel.Stop();
+        SoundManager.Instance.zombieChannel2.Stop();
+
+        // Destroy all zombies
+        foreach (Enemy zombie in currentZombiesAlive) {
+            Destroy(zombie.gameObject);
+        }
+        currentZombiesAlive.Clear();
+        
+        SoundManager.Instance.playerChannel.clip = SoundManager.Instance.gameOverMusic;
+        SoundManager.Instance.playerChannel.PlayDelayed(2f);
+        
+        GetComponent<ScreenBlackout>().StartFade();
+        StartCoroutine(GameCompletedUI());
+    }
+
+    private IEnumerator GameCompletedUI()
+    {
+        yield return new WaitForSeconds(2f);
+        gameCompleteUI.gameObject.SetActive(true);
+
+        StartCoroutine(ReturnToMainMenu());
+    }
+    
+    private IEnumerator ReturnToMainMenu()
+    {
+        yield return new WaitForSeconds(1f);
+
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

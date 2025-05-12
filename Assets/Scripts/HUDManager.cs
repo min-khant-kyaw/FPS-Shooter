@@ -90,7 +90,6 @@ public class HUDManager : MonoBehaviour
         if (sliderFillImage != null && concentrationType != null && concentrationLevel != null)
         {
             concentrationLevel.value = EEGManager.Instance.focus_score;
-            Debug.Log("focus score: " + concentrationLevel.value);
             if (concentrationLevel.value < 0.5f) {
                     concentrationType.text = "Focused";
                     concentrationType.color = Color.red;

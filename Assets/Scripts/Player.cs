@@ -79,6 +79,7 @@ public class Player : MonoBehaviour
         
         GetComponent<MouseMovement>().enabled = false;
         GetComponent<PlayerMovement>().enabled = false;
+        // GetComponent<Weapon>().enabled = false;
         
         // Dying Animation
         GetComponentInChildren<Animator>().enabled = true;
@@ -93,11 +94,11 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(1f);
         gameOverUI.gameObject.SetActive(true);
 
-        int waveSurvived = GlobalReferences.Instance.waveNumber - 1;
+        // int waveSurvived = GlobalReferences.Instance.waveNumber - 1;
 
-        if (waveSurvived > SaveLoadManager.Instance.LoadHighScore()) {
-            SaveLoadManager.Instance.SaveHighScore(waveSurvived);
-        }
+        // if (waveSurvived > SaveLoadManager.Instance.LoadHighScore()) {
+        //     SaveLoadManager.Instance.SaveHighScore(waveSurvived);
+        // }
 
         StartCoroutine(ReturnToMainMenu());
     }
